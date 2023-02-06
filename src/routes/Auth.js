@@ -1,38 +1,37 @@
 import React, { useState } from "react";
-// import { getAuth } from "firebase/auth";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
+  const [error, setError] = useState("");
 
-  const onEmailChange = (event) => {
-    const { value } = event.target;
-    setEmail(value);
+  const onChange = (event) => {
+    const {
+      target: { name, value },
+    } = event;
+    // const {name, value} = event.target
+
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
   };
-
-  const onPasswordChange = (event) => {
-    console.log(event);
-    const { value } = event.target;
-    setPassword(value);
-  };
-
-  const toggleAccount = () => setNewAccount((prev) => !prev);
 
   const onSubmit = async (event) => {
-    event.preventDefault(); // submit 버튼 클릭시 새로고침 방치
-    console.log(event.target.value);
+    event.preventDefault(); // submit()은 클릭과 동시에 새로고침됨.
 
     const auth = getAuth();
-    let data;
 
+    let data;
     if (newAccount) {
       data = await createUserWithEmailAndPassword(auth, email, password);
     } else {
@@ -40,57 +39,58 @@ const Auth = () => {
     }
   };
 
+  const toggleAccount = () => setNewAccount((prev) => !prev);
+
+  // https://firebase.google.com/docs/auth?hl=ko
   const onSocialClick = async (event) => {
-    console.log(event);
-
-    const { name } = event.target;
-    console.log(name);
-
+    const {
+      target: { name },
+    } = event;
     const auth = getAuth();
-    const provider = new GoogleAuthProvider();
+
+    let provider;
+    if (name === "google") {
+      provider = new GoogleAuthProvider();
+    }
+
     const data = await signInWithPopup(auth, provider);
     console.log(data);
   };
+
   return (
     <div>
       <form onSubmit={onSubmit}>
         <input
           name="email"
           type="email"
-          placeholder="input email"
-          value={email}
-          onChange={onEmailChange}
+          placeholder="Email"
           required
+          value={email}
+          onChange={onChange}
         />
         <input
           name="password"
           type="password"
-          placeholder="input password"
-          value={password}
-          onChange={onPasswordChange}
+          placeholder="Password"
           required
-        ></input>
+          value={password}
+          onChange={onChange}
+        />
         <input
           type="submit"
-          value={newAccount ? "Create Account" : "sign in"}
-        ></input>
-
-        <span onClick={toggleAccount}>
-          {newAccount ? "sign in" : "Create Account"}
-        </span>
+          value={newAccount ? "Create Account" : "Sign In"}
+        />
+        {error}
       </form>
-
-      <button onClick={onSocialClick} name="google">
-        Google Login
-      </button>
-      <button onClick={onSocialClick} name="github">
-        Github Login
-      </button>
-      <button onClick={onSocialClick} name="facebook">
-        Facebook Login
-      </button>
+      <span onClick={toggleAccount}>
+        {newAccount ? "Sign In" : "Create Account"}
+      </span>
+      <div>
+        <button onClick={onSocialClick} name="google">
+          Continue with Google
+        </button>
+      </div>
     </div>
   );
 };
-
 export default Auth;
