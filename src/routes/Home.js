@@ -43,8 +43,6 @@ const Home = ({ userObj }) => {
         id: document.id,
       }));
 
-      console.log("tweetArr");
-      console.log(tweetArr);
       setTweets(tweetArr);
     });
   }, []);
@@ -53,22 +51,26 @@ const Home = ({ userObj }) => {
   console.log(userObj);
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input
-          value={tweet}
-          onChange={onChange}
-          type="text"
-          placeholder="당신의 마음을 표현해 주세요 :)"
-        />
-        <input type="submit" value="tweet" />
+    <div className="home_container">
+      <form onSubmit={onSubmit} className="homeForm">
+        <div className="homeInput__container">
+          <input
+            value={tweet}
+            onChange={onChange}
+            type="text"
+            placeholder="당신의 마음을 표현해 주세요 :)"
+            className="homeInput__input"
+          />
+          <input type="submit" value="tweet" className="homeForm_btn" />
+          {/*submit : 입력받은 데이터 전송하기 - 자동으로 데이터 전송 가능한 버튼이 생기고, 클릭 시 지정된 url 서버 페이지로 전송된다.*/}
+        </div>
       </form>
       <div>
         {tweets.map((tweet) => (
           <div key={tweet.id}>
             <Tweet
               key={tweet.id}
-              nweetObj={tweet}
+              tweetObj={tweet}
               isOwner={tweet.createdId === userObj.uid}
             />
           </div>

@@ -7,6 +7,13 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faGoogle,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -58,14 +65,21 @@ const Auth = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className="authContainer">
+      <FontAwesomeIcon
+        icon={faTwitter}
+        color={"#04AAFF"}
+        size="3x"
+        style={{ marginBottom: 30 }}
+      />
+      <form onSubmit={onSubmit} className="container">
         <input
           name="email"
           type="email"
           placeholder="Email"
           required
           value={email}
+          className="authInput"
           onChange={onChange}
         />
         <input
@@ -74,20 +88,26 @@ const Auth = () => {
           placeholder="Password"
           required
           value={password}
+          className="authInput"
           onChange={onChange}
         />
         <input
           type="submit"
+          className="authInput authSubmit"
           value={newAccount ? "Create Account" : "Sign In"}
         />
         {error}
       </form>
-      <span onClick={toggleAccount}>
+      <span className="auth_click" onClick={toggleAccount}>
         {newAccount ? "Sign In" : "Create Account"}
       </span>
-      <div>
-        <button onClick={onSocialClick} name="google">
+      <div className="authBtns">
+        <button className="authBtn" onClick={onSocialClick} name="google">
           Continue with Google
+        </button>
+
+        <button className="authBtn" onClick={onSocialClick} name="google">
+          Continue with Facebook
         </button>
       </div>
     </div>
