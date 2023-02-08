@@ -32,6 +32,7 @@ const Home = ({ userObj }) => {
 
   // db로 부터 데이터 불러오기
   useEffect(() => {
+    console.log("userEFFECT 실행");
     const q = query(
       collection(dbFirestore, "tweets"),
       orderBy("createAt", "desc")
@@ -61,13 +62,13 @@ const Home = ({ userObj }) => {
             placeholder="당신의 마음을 표현해 주세요 :)"
             className="homeInput__input"
           />
-          <input type="submit" value="tweet" className="homeForm_btn" />
+          <input type="submit" value="&rarr;" className="homeForm_btn" />
           {/*submit : 입력받은 데이터 전송하기 - 자동으로 데이터 전송 가능한 버튼이 생기고, 클릭 시 지정된 url 서버 페이지로 전송된다.*/}
         </div>
       </form>
-      <div>
+      <div className="home_textbox">
         {tweets.map((tweet) => (
-          <div key={tweet.id}>
+          <div className="home_textbox_1" key={tweet.id}>
             <Tweet
               key={tweet.id}
               tweetObj={tweet}

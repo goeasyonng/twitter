@@ -63,16 +63,16 @@ const Tweet = ({ tweetObj, isOwner }) => {
         <>
           <h4>{tweetObj.text}</h4>
           {isOwner && (
-            <>
-              <div class="tweet__actions">
-                <button onClick={onDeleteClick}>
+            <div className="tweet_btns">
+              <div className="tweet__actions">
+                <button className="twitter_btn" onClick={onDeleteClick}>
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
-                <button onClick={toggleEditing}>
+                <button className="twitter_btn" onClick={toggleEditing}>
                   <FontAwesomeIcon icon={faPencilAlt} />
                 </button>
               </div>
-            </>
+            </div>
           )}
         </>
       )}
